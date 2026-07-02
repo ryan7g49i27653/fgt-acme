@@ -1,0 +1,17 @@
+# Real secrets — never commit. Templates (*.template) are tracked intentionally.
+.env
+secrets/cloudflare.ini
+secrets/fgt_api_token
+
+# certbot runtime state: account keys, issued certs/keys, renewal config, logs.
+# Persisted on the host as a bind-mounted volume, not something to version.
+letsencrypt/*
+!letsencrypt/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor/OS cruft
+.DS_Store
+*.swp

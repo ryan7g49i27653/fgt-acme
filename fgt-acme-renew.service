@@ -1,0 +1,9 @@
+[Unit]
+Description=Renew FortiGate admin GUI cert via Let's Encrypt DNS-01
+Wants=network-online.target
+After=network-online.target docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/fgt-acme
+ExecStart=/usr/bin/docker compose -f /opt/fgt-acme/compose.yaml run --rm fgt-acme

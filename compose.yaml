@@ -1,0 +1,27 @@
+services:
+  fgt-acme:
+    build: .
+    image: fgt-acme:${IMAGE_TAG:-latest}
+    pull_policy: build
+    environment:
+      ACME_DOMAIN: ${ACME_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL}
+      CERTBOT_EXTRA_ARGS: ${CERTBOT_EXTRA_ARGS:-}
+      FGT_HOST: ${FGT_HOST}
+      FGT_PORT: ${FGT_PORT:-443}
+      FGT_VDOM: ${FGT_VDOM:-root}
+      FGT_CERT_FP: ${FGT_CERT_FP}
+      FGT_API_TOKEN_FILE: /run/secrets/fgt_api_token
+    secrets:
+      - source: cloudflare_ini
+        target: cloudflare.ini
+      - source: fgt_api_token
+        target: fgt_api_token
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+
+secrets:
+  cloudflare_ini:
+    file: ./secrets/cloudflare.ini
+  fgt_api_token:
+    file: ./secrets/fgt_api_token
