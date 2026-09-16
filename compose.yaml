@@ -11,6 +11,8 @@ services:
       FGT_PORT: ${FGT_PORT:-443}
       FGT_VDOM: ${FGT_VDOM:-root}
       FGT_CERT_FP: ${FGT_CERT_FP}
+      FGT_CERT_NAME_A: ${FGT_CERT_NAME_A:-acme-fw-a}
+      FGT_CERT_NAME_B: ${FGT_CERT_NAME_B:-acme-fw-b}
       FGT_API_TOKEN_FILE: /run/secrets/fgt_api_token
     secrets:
       - source: cloudflare_ini

@@ -17,6 +17,9 @@ Required env vars (certbot sets RENEWED_LINEAGE / RENEWED_DOMAINS itself):
     FGT_CERT_FP     (optional but recommended) SHA256 fingerprint of the
                     FortiGate's current admin cert, colon-hex, for pinning
                     instead of blanket TLS verification bypass
+    FGT_CERT_NAME_A (optional) the two certificate object names to rotate
+    FGT_CERT_NAME_B between; default "acme-fw-a" / "acme-fw-b". Must be
+                    two distinct names — see the check below.
 """
 import base64
 import hashlib
@@ -51,8 +54,18 @@ FGT_PORT = os.environ.get("FGT_PORT", "443")
 FGT_TOKEN = _read_secret("FGT_API_TOKEN_FILE", "FGT_API_TOKEN")
 FGT_VDOM = os.environ.get("FGT_VDOM", "global")
 FGT_CERT_FP = os.environ.get("FGT_CERT_FP")  # optional pin
-CERT_NAME_A = "acme-fw-a"
-CERT_NAME_B = "acme-fw-b"
+CERT_NAME_A = os.environ.get("FGT_CERT_NAME_A", "acme-fw-a")
+CERT_NAME_B = os.environ.get("FGT_CERT_NAME_B", "acme-fw-b")
+
+if not CERT_NAME_A or not CERT_NAME_B:
+    raise RuntimeError("FGT_CERT_NAME_A and FGT_CERT_NAME_B must be non-empty")
+if CERT_NAME_A == CERT_NAME_B:
+    # The whole point of the pair is that a renewal imports under the name
+    # that isn't currently bound; collapsing them to one name would make
+    # every renewal overwrite the in-use certificate object.
+    raise RuntimeError(
+        f"FGT_CERT_NAME_A and FGT_CERT_NAME_B must differ (both are {CERT_NAME_A!r})"
+    )
 
 BASE = f"https://{FGT_HOST}:{FGT_PORT}/api/v2"
 HEADERS = {"Authorization": f"Bearer {FGT_TOKEN}", "Content-Type": "application/json"}

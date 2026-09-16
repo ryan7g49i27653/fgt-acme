@@ -26,8 +26,9 @@ the trigger and is only ever a target of outbound API calls from the host
 running this — it has no role in scheduling or initiating anything.
 
 Certificates rotate using a blue/green naming scheme
-(`acme-fw-a` / `acme-fw-b`) so a renewal never overwrites the
-certificate object currently bound to the admin GUI.
+(`acme-fw-a` / `acme-fw-b`, overridable via `FGT_CERT_NAME_A` /
+`FGT_CERT_NAME_B`) so a renewal never overwrites the certificate object
+currently bound to the admin GUI.
 
 ```
 systemd timer (daily)
@@ -45,7 +46,7 @@ systemd timer (daily)
 | `Dockerfile` | Builds on the official `certbot/dns-cloudflare` image, adds `deploy-hook.py` |
 | `compose.yaml` | Compose service definition; non-secret config via `.env`, credentials via Compose `secrets:` (file-mounted, not env vars) |
 | `deploy-hook.py` | Pushes a renewed cert to the FortiGate via REST API; handles the blue/green rotation and TLS fingerprint pinning |
-| `.env.template` | Copy to `.env` — non-secret runtime config (domain, FortiGate host/port, vdom, cert fingerprint) |
+| `.env.template` | Copy to `.env` — non-secret runtime config (domain, FortiGate host/port, vdom, cert fingerprint, cert object names) |
 | `secrets/*.template` | Copy to real filenames (drop `.template`) — Cloudflare API token and FortiGate REST API token |
 | `fgt-acme-renew.service` / `.timer` | systemd units for daily scheduling |
 | `SETUP.md` | Full step-by-step setup instructions, including FortiGate-side config and the reasoning behind several non-obvious choices |

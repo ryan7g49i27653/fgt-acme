@@ -19,9 +19,10 @@ systemd timer (daily)
                  -> DELETE FortiGate old cert object          (cleanup, non-fatal on failure)
 ```
 
-**Blue/green cert naming** (`acme-fw-a` / `acme-fw-b`): every renewal
-imports under whichever name isn't currently active, flips the pointer, then
-deletes the old one — never overwrites an in-use certificate object.
+**Blue/green cert naming** (`acme-fw-a` / `acme-fw-b`, overridable via
+`FGT_CERT_NAME_A` / `FGT_CERT_NAME_B`): every renewal imports under whichever
+name isn't currently active, flips the pointer, then deletes the old one —
+never overwrites an in-use certificate object.
 
 ## Prerequisites
 
@@ -126,6 +127,8 @@ FGT_HOST=192.168.x.x                # FortiGate's raw LAN IP, not a hostname —
 FGT_PORT=4443                       # or whatever the admin HTTPS port is
 FGT_VDOM=root                       # real vdom name; NOT "global"
 FGT_CERT_FP=<sha256-fingerprint-from-step-3>
+FGT_CERT_NAME_A=acme-fw-a           # blue/green cert object names; must
+FGT_CERT_NAME_B=acme-fw-b           # differ from each other
 ```
 
 `secrets/cloudflare.ini`:
