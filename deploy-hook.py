@@ -51,8 +51,8 @@ FGT_PORT = os.environ.get("FGT_PORT", "443")
 FGT_TOKEN = _read_secret("FGT_API_TOKEN_FILE", "FGT_API_TOKEN")
 FGT_VDOM = os.environ.get("FGT_VDOM", "global")
 FGT_CERT_FP = os.environ.get("FGT_CERT_FP")  # optional pin
-CERT_NAME_A = "homelab-fw-a"
-CERT_NAME_B = "homelab-fw-b"
+CERT_NAME_A = "acme-fw-a"
+CERT_NAME_B = "acme-fw-b"
 
 BASE = f"https://{FGT_HOST}:{FGT_PORT}/api/v2"
 HEADERS = {"Authorization": f"Bearer {FGT_TOKEN}", "Content-Type": "application/json"}

@@ -26,7 +26,7 @@ the trigger and is only ever a target of outbound API calls from the host
 running this — it has no role in scheduling or initiating anything.
 
 Certificates rotate using a blue/green naming scheme
-(`homelab-fw-a` / `homelab-fw-b`) so a renewal never overwrites the
+(`acme-fw-a` / `acme-fw-b`) so a renewal never overwrites the
 certificate object currently bound to the admin GUI.
 
 ```

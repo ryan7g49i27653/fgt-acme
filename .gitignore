@@ -15,3 +15,6 @@ __pycache__/
 # Editor/OS cruft
 .DS_Store
 *.swp
+
+# Claude Code machine-local settings (shared .claude/settings.json stays tracked)
+.claude/settings.local.json

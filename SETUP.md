@@ -19,7 +19,7 @@ systemd timer (daily)
                  -> DELETE FortiGate old cert object          (cleanup, non-fatal on failure)
 ```
 
-**Blue/green cert naming** (`homelab-fw-a` / `homelab-fw-b`): every renewal
+**Blue/green cert naming** (`acme-fw-a` / `acme-fw-b`): every renewal
 imports under whichever name isn't currently active, flips the pointer, then
 deletes the old one — never overwrites an in-use certificate object.
 
