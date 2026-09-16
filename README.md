@@ -102,4 +102,4 @@ docker compose run --rm \
 
 ## License
 
-Not yet set — add one here if this repo is going public.
+MIT — see [LICENSE](./LICENSE).
